@@ -6,7 +6,7 @@ def printboard(board):
             if 10*i+j in board.reds:
                 print("🔴", end = "")
             elif 10*i+j in board.kingreds:
-                print("❤️", end = "")
+                print("❤️", end = " ")
             elif 10*i+j in board.blues:
                 print("🔵", end = "")
             elif 10*i+j in board.kingblues:
