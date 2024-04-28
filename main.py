@@ -1,6 +1,7 @@
 from os import system
 from classes import GameBoard
 from mechanisms import printboard, play
+from bot import botplay
 
 def main():
     args = 0
@@ -21,8 +22,9 @@ def main():
     while True:
         printboard(board)
         play(board)
-        #printboard(board)
-        #botmove()
+        printboard(board)
+        board = botplay(board)
+        print("Protivnički potez")
 
 if __name__ == "__main__":
     main()

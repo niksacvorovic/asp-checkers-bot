@@ -1,3 +1,5 @@
+from sys import maxsize
+
 class GameBoard():
     def __init__(self, reds = {1:(0, 1), 3:(0, 3), 5:(0, 5), 7:(0, 7),
                                10:(1, 0), 12:(1, 2), 14:(1, 4), 16:(1, 6), 
@@ -11,17 +13,32 @@ class GameBoard():
         self.kingreds = kingreds
         self.kingblues = kingblues
 
-def heuristic(board):
-    pass
-
 class GameTreeNode():
     def __init__(self, board, move):
         self.board = board
-        self.value = heuristic(board)
+        self.value = self.heuristic()
+        self.parent = None
         self.move = move
+        self.children = []
+    def heuristic(self):
+        if self.board.reds and self.board.kingreds:
+            return -maxsize
+        if self.board.blues and self.board.kingblues:
+            return maxsize
+        score = len(self.board.reds) + 2 * len(self.board.kingreds) - len(self.board.blues) - 2 * len(self.board.kingblues)
+        borders = [1, 3, 5, 7, 10, 30, 50, 70, 72, 74, 76, 67, 47, 27]
+        for i in borders:
+            if i in self.board.reds or i in self.board.kingreds:
+                score += 1
+            elif i in self.board.blues or i in self.board.kingblues:
+                score -= 1
+        return score
 
 class GameTree():
     def __init__(self, root):
         self.root = root
         self.nodes = [root]
-
+    def append(self, node, newnode):
+        node.children.append(newnode)
+        newnode.parent = node
+        self.nodes.append(newnode)
