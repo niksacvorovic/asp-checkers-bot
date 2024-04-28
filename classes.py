@@ -11,15 +11,17 @@ class GameBoard():
         self.kingreds = kingreds
         self.kingblues = kingblues
 
+def heuristic(board):
+    pass
+
 class GameTreeNode():
-    def __init__(self, board, parent, move):
-        self.value = board
-        self.parent = parent
-        self.children = []
+    def __init__(self, board, move):
+        self.board = board
+        self.value = heuristic(board)
         self.move = move
-        
 
 class GameTree():
     def __init__(self, root):
         self.root = root
         self.nodes = [root]
+
