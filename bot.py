@@ -11,7 +11,7 @@ def generatetree(board):
     q.append((rootnode, 0))
     current = (None, 0)
     count = 0
-    while current[1] != 6:
+    while current[1] != 6 and count < 30000:
         current = q.popleft()
         if current[1] == 5:
             break

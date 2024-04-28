@@ -22,9 +22,19 @@ def main():
     while True:
         printboard(board)
         play(board)
+        system('cls')
         printboard(board)
+        if len(board.reds) == 0 and len(board.kingreds) == 0:
+            print("Pobedili ste računar! Čestitamo pojeli ste")
+            break
+        print("Čeka se protivnički potez...")
         board = botplay(board)
-        print("Protivnički potez")
+        system('cls')
+        print("Protivnički potez:")
+        if len(board.blues) == 0 and len(board.kingblues) == 0:
+            print("Izgubili ste od računara! Niste pojeli")
+            break
+
 
 if __name__ == "__main__":
     main()
