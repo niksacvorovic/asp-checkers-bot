@@ -13,9 +13,7 @@ def generatetree(board):
     count = 0
     while current[1] != 6 and count < 30000:
         current = q.popleft()
-        if current[1] == 5:
-            break
-        elif current[1] % 2 == 0:
+        if current[1] % 2 == 0:
             plays = generateregplays_red(current[0].board) + generatecaptplays_red(current[0].board)
         elif current[1] % 2 == 1:
             plays = generateregplays_blue(current[0].board) + generatecaptplays_blue(current[0].board)
@@ -31,23 +29,26 @@ def minimax(node):
     for child in node.children:
         minimax(child)
     if node.children == []:
-        pass
+        return None
+    noderef = None
     if node.move:
         newvalue = -maxsize
         for child in node.children:
             if child.value > newvalue:
                 newvalue = child.value
-        node.value = newvalue
+                noderef = child
     else:
         newvalue = maxsize
         for child in node.children:
             if child.value < newvalue:
                 newvalue = child.value
-        node.value = newvalue
+                noderef = child
+    node.value = newvalue
+    noderef.mark = True
 
 def botplay(board):
     tree = generatetree(board)
     minimax(tree.root)
     for child in tree.root.children:
-        if child.value == tree.root.value:
+        if child.mark:
             return child.board

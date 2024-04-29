@@ -19,13 +19,14 @@ class GameTreeNode():
         self.value = self.heuristic()
         self.parent = None
         self.move = move
+        self.mark = False
         self.children = []
     def heuristic(self):
         if len(self.board.reds) == 0 and len(self.board.kingreds) == 0:
             return -maxsize
         if len(self.board.blues) == 0 and len(self.board.kingblues) == 0:
             return maxsize
-        score = 100 * (len(self.board.reds) + 2 * len(self.board.kingreds) - len(self.board.blues) - 2 * len(self.board.kingblues))
+        score = 2 * (len(self.board.reds) + 2 * len(self.board.kingreds) - len(self.board.blues) - 2 * len(self.board.kingblues))
         borders = [1, 3, 5, 7, 10, 30, 50, 70, 72, 74, 76, 67, 47, 27]
         for i in borders:
             if i in self.board.reds or i in self.board.kingreds:
