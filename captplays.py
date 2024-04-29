@@ -258,7 +258,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(newreds, board.blues, board.kingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     elif (field + 11) in board.kingreds and is_empty(field + 22, board) and field % 10 < 6 and field // 10 < 6:
         newfield = field + 22
         capture = field + 11
@@ -269,7 +269,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(board.reds, board.blues, newkingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     if (field + 9) in board.reds and is_empty(field + 18, board) and field % 10 > 1 and field // 10 < 6:
         newfield = field + 18
         capture = field + 9
@@ -280,7 +280,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(newreds, board.blues, board.kingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     elif (field + 9) in board.kingreds and is_empty(field + 18, board) and field % 10 > 1 and field // 10 < 6:
         newfield = field + 18
         capture = field + 9
@@ -291,7 +291,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(board.reds, board.blues, newkingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     if (field - 11) in board.reds and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
         newfield = field - 22
         capture = field - 11
@@ -302,7 +302,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(newreds, board.blues, board.kingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     elif (field - 11) in board.kingreds and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
         newfield = field - 22
         capture = field - 11
@@ -313,7 +313,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(board.reds, board.blues, newkingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     if (field - 9) in board.reds and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
         newfield = field - 18
         capture = field - 9
@@ -324,7 +324,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(newreds, board.blues, board.kingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     elif (field - 9) in board.kingreds and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
         newfield = field - 18
         capture = field - 9
@@ -335,7 +335,7 @@ def generatecaptplays_kingbluefield(board, field):
         newkingblues[newfield] = (newfield // 10, newfield % 10)
         newboard = GameBoard(board.reds, board.blues, newkingreds, newkingblues)
         plays.append(newboard)
-        plays += generatecaptplays_kingbluefield(newboard)
+        plays += generatecaptplays_kingbluefield(newboard, newfield)
     return plays
 
 def generatecaptplays_blue(board):

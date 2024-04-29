@@ -35,6 +35,5 @@ def main():
             print("Izgubili ste od računara! Niste pojeli")
             break
 
-
 if __name__ == "__main__":
     main()
