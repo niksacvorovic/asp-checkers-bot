@@ -12,14 +12,18 @@ class GameBoard():
         self.blues = blues
         self.kingreds = kingreds
         self.kingblues = kingblues
+    def __eq__(self, board):
+        return self.reds == board.reds and self.blues == board.blues and self.kingreds == board.kingreds and self.kingblues == board.kingblues
 
 class GameTreeNode():
-    def __init__(self, board, move):
+    def __init__(self, board, level):
         self.board = board
         self.value = self.heuristic()
         self.parent = None
-        self.move = move
+        self.level = level
         self.mark = False
+        self.alpha = -maxsize
+        self.beta = maxsize
         self.children = []
     def heuristic(self):
         if len(self.board.reds) == 0 and len(self.board.kingreds) == 0:
@@ -38,8 +42,6 @@ class GameTreeNode():
 class GameTree():
     def __init__(self, root):
         self.root = root
-        self.nodes = [root]
     def append(self, node, newnode):
         node.children.append(newnode)
         newnode.parent = node
-        self.nodes.append(newnode)

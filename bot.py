@@ -4,26 +4,42 @@ from captplays import *
 from collections import deque
 from sys import maxsize
 
-def generatetree(board):
-    rootnode = GameTreeNode(board, True)
+def generatechildren(node, gametree):
+    if node.level % 2 == 0:
+        plays = generateregplays_blue(node.board) + generatecaptplays_blue(node.board)
+    elif node.level % 2 == 1:
+        plays = generateregplays_red(node.board) + generatecaptplays_red(node.board)
+    nextlevel = node.level + 1
+    for board in plays:
+        newnode = GameTreeNode(board, nextlevel)
+        gametree.append(node, newnode)
+
+def generateinitialtree():
+    rootnode = GameTreeNode(GameBoard(), 0)
     gametree = GameTree(rootnode)
     q = deque()
-    q.append((rootnode, 0))
-    current = (None, 0)
-    count = 0
-    while current[1] != 6 and count < 30000:
+    q.append(rootnode)
+    current = rootnode
+    while current.level != 5:
         current = q.popleft()
-        if current[1] % 2 == 0:
-            plays = generateregplays_red(current[0].board) + generatecaptplays_red(current[0].board)
-        elif current[1] % 2 == 1:
-            plays = generateregplays_blue(current[0].board) + generatecaptplays_blue(current[0].board)
-        move = not current[0].move
-        for board in plays:
-            newnode = GameTreeNode(board, move)
-            gametree.append(current[0], newnode)
-            q.append((newnode, current[1] + 1))
-            count += 1
+        generatechildren(current, gametree)
+        for node in current.children:
+            q.append(node)
     return gametree
+
+def findcurrentmove(board, tree):
+    for child in tree.root.children:
+        if child.board == board:
+            newtree = GameTree(child)
+            generatenextlevel(newtree.root, newtree)
+    return newtree
+
+def generatenextlevel(node, gametree):
+    if node.children == []:
+        generatechildren(node, gametree)
+    else:
+        for child in node.children:
+            generatenextlevel(child, gametree)
 
 def minimax(node):
     for child in node.children:
@@ -31,7 +47,7 @@ def minimax(node):
     if node.children == []:
         return None
     noderef = None
-    if node.move:
+    if node.level % 2 == 1:
         newvalue = -maxsize
         for child in node.children:
             if child.value > newvalue:
@@ -46,8 +62,7 @@ def minimax(node):
     node.value = newvalue
     noderef.mark = True
 
-def botplay(board):
-    tree = generatetree(board)
+def botplay(tree):
     minimax(tree.root)
     for child in tree.root.children:
         if child.mark:

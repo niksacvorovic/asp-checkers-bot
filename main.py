@@ -1,7 +1,7 @@
 from os import system
-from classes import GameBoard
+from classes import GameBoard, GameTree
 from mechanisms import printboard, play
-from bot import botplay
+from bot import *
 
 def main():
     args = 0
@@ -19,6 +19,7 @@ def main():
     system('cls')
     print("Igra može da počne!")
     board = GameBoard()
+    tree = generateinitialtree()
     while True:
         printboard(board)
         play(board)
@@ -28,8 +29,10 @@ def main():
             print("Pobedili ste računar! Čestitamo pojeli ste")
             break
         print("Čeka se protivnički potez...")
-        board = botplay(board)
+        tree = findcurrentmove(board, tree)
+        board = botplay(tree)
         system('cls')
+        tree = findcurrentmove(board, tree)
         print("Protivnički potez:")
         if len(board.blues) == 0 and len(board.kingblues) == 0:
             print("Izgubili ste od računara! Niste pojeli")
