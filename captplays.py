@@ -183,7 +183,7 @@ def generatecaptplays_bluefield(board, field):
         newblues = deepcopy(board.blues)
         newreds.pop(capture)
         newblues.pop(field)
-        if newfield < 70:
+        if newfield > 9:
             newblues[newfield] = (newfield // 10, newfield % 10)
             newboard = GameBoard(newreds, newblues, board.kingreds, board.kingblues)
             plays.append(newboard)
@@ -200,7 +200,7 @@ def generatecaptplays_bluefield(board, field):
         newblues = deepcopy(board.blues)
         newkingreds.pop(capture)
         newblues.pop(field)
-        if newfield < 70:
+        if newfield > 9:
             newblues[newfield] = (newfield // 10, newfield % 10)
             newboard = GameBoard(board.reds, newblues, newkingreds, board.kingblues)
             plays.append(newboard)
@@ -217,7 +217,7 @@ def generatecaptplays_bluefield(board, field):
         newblues = deepcopy(board.blues)
         newreds.pop(capture)
         newblues.pop(field)
-        if newfield < 70:
+        if newfield > 9:
             newblues[newfield] = (newfield // 10, newfield % 10)
             newboard = GameBoard(newreds, newblues, board.kingreds, board.kingblues)
             plays.append(newboard)
@@ -234,7 +234,7 @@ def generatecaptplays_bluefield(board, field):
         newblues = deepcopy(board.blues)
         newkingreds.pop(capture)
         newblues.pop(field)
-        if newfield < 70:
+        if newfield > 9:
             newblues[newfield] = (newfield // 10, newfield % 10)
             newboard = GameBoard(board.reds, newblues, newkingreds, board.kingblues)
             plays.append(newboard)
@@ -341,7 +341,7 @@ def generatecaptplays_kingbluefield(board, field):
 def generatecaptplays_blue(board):
     plays = []
     for field in board.blues:
-        generatecaptplays_bluefield(board, field)
+        plays += generatecaptplays_bluefield(board, field)
     for field in board.kingblues:
-        generatecaptplays_kingbluefield(board, field)
+        plays += generatecaptplays_kingbluefield(board, field)
     return plays

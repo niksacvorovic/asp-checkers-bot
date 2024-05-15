@@ -20,7 +20,7 @@ def generateinitialtree():
     q = deque()
     q.append(rootnode)
     current = rootnode
-    while current.level != 5:
+    while current.level != 4:
         current = q.popleft()
         generatechildren(current, gametree)
         for node in current.children:
@@ -43,6 +43,8 @@ def generatenextlevel(node, gametree):
 
 def minimax(node):
     for child in node.children:
+        child.alpha = node.alpha
+        child.beta = node.beta
         minimax(child)
     if node.children == []:
         return None
@@ -59,7 +61,22 @@ def minimax(node):
             if child.value < newvalue:
                 newvalue = child.value
                 noderef = child
-    node.value = newvalue
+    #if node.level % 2 == 1:
+    #    for child in node.children:
+    #        if child.value < node.alpha:
+    #            node.children.remove(child)
+    #        else:
+    #            node.alpha = child.value
+    #            noderef = child
+    #    node.value = node.alpha
+    #else:
+    #    for child in node.children:
+    #        if child.value > node.beta:
+    #            node.children.remove(child)
+    #        else:
+    #            node.beta = child.value
+    #            noderef = child
+    #    node.value = node.beta
     noderef.mark = True
 
 def botplay(tree):

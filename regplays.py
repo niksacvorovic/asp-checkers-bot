@@ -61,7 +61,7 @@ def generateregplays_blue(board):
             newfield = field - 9
             newblues = deepcopy(board.blues)
             newblues.pop(field)
-            if newfield < 70:
+            if newfield > 9:
                 newblues[newfield] = (newfield // 10, newfield % 10)
                 plays.append(GameBoard(board.reds, newblues, board.kingreds, board.kingblues))
             else:
@@ -72,7 +72,7 @@ def generateregplays_blue(board):
             newfield = field - 11
             newblues = deepcopy(board.blues)
             newblues.pop(field)
-            if newfield < 70:
+            if newfield > 9:
                 newblues[newfield] = (newfield // 10, newfield % 10)
                 plays.append(GameBoard(board.reds, newblues, board.kingreds, board.kingblues))
             else:

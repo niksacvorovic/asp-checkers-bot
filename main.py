@@ -20,8 +20,8 @@ def main():
     print("Igra može da počne!")
     board = GameBoard()
     tree = generateinitialtree()
+    printboard(board)
     while True:
-        printboard(board)
         play(board)
         system('cls')
         printboard(board)
@@ -34,6 +34,7 @@ def main():
         system('cls')
         tree = findcurrentmove(board, tree)
         print("Protivnički potez:")
+        printboard(board)
         if len(board.blues) == 0 and len(board.kingblues) == 0:
             print("Izgubili ste od računara! Niste pojeli")
             break
