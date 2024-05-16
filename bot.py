@@ -1,6 +1,7 @@
 from classes import *
 from regplays import *
 from captplays import *
+from mechanisms import printboard
 from collections import deque
 from sys import maxsize
 
@@ -41,14 +42,12 @@ def generatenextlevel(node, gametree):
         for child in node.children:
             generatenextlevel(child, gametree)
 
-def minimax(node):
+def minimax_old(node):
+    noderef = None
     for child in node.children:
-        child.alpha = node.alpha
-        child.beta = node.beta
-        minimax(child)
+        noderef = minimax_old(child)
     if node.children == []:
         return None
-    noderef = None
     if node.level % 2 == 1:
         newvalue = -maxsize
         for child in node.children:
@@ -61,26 +60,38 @@ def minimax(node):
             if child.value < newvalue:
                 newvalue = child.value
                 noderef = child
-    #if node.level % 2 == 1:
-    #    for child in node.children:
-    #        if child.value < node.alpha:
-    #            node.children.remove(child)
-    #        else:
-    #            node.alpha = child.value
-    #            noderef = child
-    #    node.value = node.alpha
-    #else:
-    #    for child in node.children:
-    #        if child.value > node.beta:
-    #            node.children.remove(child)
-    #        else:
-    #            node.beta = child.value
-    #            noderef = child
-    #    node.value = node.beta
-    noderef.mark = True
+    return noderef
+
+def minimax(node):
+    noderef = None
+    for child in node.children:
+        child.alpha = node.alpha
+        child.beta = node.beta
+        noderef = minimax(child)
+    if node.children == []:
+        return None
+    if node.level % 2 == 1:
+        for child in node.children:
+            if child.value > node.alpha:
+                node.alpha = child.value
+                noderef = child
+            if node.beta <= node.alpha:
+                noderef = child.parent
+                break
+    else:
+        for child in node.children:
+            if child.value < node.beta:
+                node.beta = child.value
+                noderef = child
+            if node.beta <= node.alpha:
+                noderef = child.parent
+                break
+    return noderef
 
 def botplay(tree):
     minimax(tree.root)
     for child in tree.root.children:
-        if child.mark:
-            return child.board
+        if tree.root.value == child.value:
+            board = child.board
+            printboard(child.board)
+    return board

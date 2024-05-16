@@ -18,6 +18,8 @@ def printboard(board):
         print()
 
 def convert(tile):
+    if tile == "x" or tile == "X":
+        return -1
     row = 7 - ord(tile[1].upper()) + ord('1')
     col = ord(tile[0].upper()) - ord('A')
     return 10 * row + col
@@ -57,24 +59,70 @@ def captureplays(board, field, add = []):
             plays[field + 18] = [field + 9] + add
             plays.update(captureplays(board, field + 18, plays[field + 18]))
     return plays
+
+def movablefigures(board):
+    available = []
+    for field in board.blues:
+        if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
+            available.append(field)
+            continue
+        if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
+            available.append(field)
+            continue
+        if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
+            available.append(field)
+            continue
+        if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
+            available.append(field)
+            continue
+    for field in board.kingblues:
+        if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
+            available.append(field)
+            continue
+        if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
+            available.append(field)
+            continue
+        if is_empty(field + 9, board) and field % 10 != 0 and field // 10 != 7:
+            available.append(field)
+            continue
+        if is_empty(field + 11, board) and field % 10 != 7 and field // 10 != 7:
+            available.append(field)
+            continue
+        if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
+            available.append(field)
+            continue
+        if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
+            available.append(field)
+            continue
+        if ((field + 11) in board.reds or (field + 11) in board.kingreds) and is_empty(field + 22, board) and field % 10 < 6 and field // 10 < 6:
+            available.append(field)
+            continue
+        if ((field + 9) in board.reds or (field + 9) in board.kingreds) and is_empty(field + 18, board) and field % 10 > 1 and field // 10 < 6:
+            available.append(field)
+            continue
+    return available
     
 def play(board):
     while True:
         while True:
-            tile = str(input("Unesite polje na kojem je žeton koji biste pomerili: "))
+            available = movablefigures(board)
+            print("Možete odigrati figurama na sledećim poljima: ", end = "")
+            for field in available:
+                print(convertback(field), end = " ")
+            tile = str(input("\nUnesite polje na kojem je figura koju biste pomerili: "))
             if not(len(tile) == 2 and tile[0].upper() in ["A", "B", "C", "D", "E", "F", "G", "H"] and tile[1] in ["1", "2", "3", "4", "5", "6", "7", "8"]):
                 print("Uneli ste neispravno polje")
                 continue
             field = convert(tile)
             if field not in board.blues and field not in board.kingblues:
-                print("Na datom polju se ne nalazi Vaš žeton")
+                print("Na datom polju se ne nalazi Vaša figura")
                 continue
             else:
                 break
         regplays = regularplays(board, field)
         captplays = captureplays(board, field)
         if regplays == [] and captplays == {}:
-            print("Dati žeton se ne može pomeriti")
+            print("Data figura se ne može pomeriti")
             continue
         print("Dostupni potezi: ", end = "")
         for p in regplays:
@@ -83,25 +131,27 @@ def play(board):
             print(convertback(p), end = " ")
         print()
         while True:
-            next = str(input("Unesite polje na koje biste pomerili žeton: "))
+            next = str(input("Unesite polje na koje biste pomerili figuru (ili unesite x da otkažete potez): "))
             newfield = convert(next)
-            if newfield in regplays or newfield in captplays:
-                if field in board.blues:
-                    board.blues.pop(field)
-                    if newfield // 10 == 0:
-                        board.kingblues[newfield] = (newfield // 10, newfield % 10)
-                    else:
-                        board.blues[newfield] = (newfield // 10, newfield % 10)
-                elif field in board.kingblues:
-                    board.kingblues.pop(field)
-                    board.kingblues[newfield] = (newfield // 10, newfield % 10)
-                if newfield in captplays:
-                    for enemy in captplays[newfield]:
-                        if enemy in board.reds:
-                            board.reds.pop(enemy)
-                        else:
-                            board.kingreds.pop(enemy)
+            if newfield in regplays or newfield in captplays or newfield == -1:
                 break
             else:
                 print("Ne možete odigrati taj potez")
+        if newfield == -1:
+            continue
+        if field in board.blues:
+            board.blues.pop(field)
+            if newfield // 10 == 0:
+                board.kingblues[newfield] = (newfield // 10, newfield % 10)
+            else:
+                board.blues[newfield] = (newfield // 10, newfield % 10)
+        elif field in board.kingblues:
+            board.kingblues.pop(field)
+            board.kingblues[newfield] = (newfield // 10, newfield % 10)
+        if newfield in captplays:
+            for enemy in captplays[newfield]:
+                if enemy in board.reds:
+                    board.reds.pop(enemy)
+                else:
+                    board.kingreds.pop(enemy)
         break

@@ -24,15 +24,16 @@ def main():
     while True:
         play(board)
         system('cls')
+        print("Vaš potez: ")
         printboard(board)
         if len(board.reds) == 0 and len(board.kingreds) == 0:
             print("Pobedili ste računar! Čestitamo pojeli ste")
             break
         print("Čeka se protivnički potez...")
         tree = findcurrentmove(board, tree)
-        board = botplay(tree)
-        system('cls')
+        board = minimax(tree.root).board
         tree = findcurrentmove(board, tree)
+        system('cls')
         print("Protivnički potez:")
         printboard(board)
         if len(board.blues) == 0 and len(board.kingblues) == 0:

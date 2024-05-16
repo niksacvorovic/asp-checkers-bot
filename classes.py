@@ -30,13 +30,21 @@ class GameTreeNode():
             return -maxsize
         if len(self.board.blues) == 0 and len(self.board.kingblues) == 0:
             return maxsize
-        score = 2 * (len(self.board.reds) + 2 * len(self.board.kingreds) - len(self.board.blues) - 2 * len(self.board.kingblues))
+        score = 3 * (len(self.board.reds) + 2 * len(self.board.kingreds) - len(self.board.blues) - 2 * len(self.board.kingblues))
         borders = [1, 3, 5, 7, 10, 30, 50, 70, 72, 74, 76, 67, 47, 27]
         for i in borders:
             if i in self.board.reds or i in self.board.kingreds:
                 score += 1
             elif i in self.board.blues or i in self.board.kingblues:
                 score -= 1
+        for figure in self.board.reds:
+            score += figure // 10
+            if figure - 9 in self.board.reds and figure - 11 in self.board.reds:
+                score += 2
+        for figure in self.board.blues:
+            score -= (80 - figure) // 10
+            if figure + 9 in self.board.blues and figure + 11 in self.board.blues:
+                score -= 2
         return score
 
 class GameTree():
