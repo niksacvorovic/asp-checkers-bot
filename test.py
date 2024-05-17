@@ -5,5 +5,5 @@ from classes import *
 from bot import *
 
 board = GameBoard()
-node = GameTreeNode(board, 0)
-tree = generateinitialtree()
+board.reds.add(6543)
+print(type(board.reds))

@@ -132,7 +132,10 @@ def play(board):
         print()
         while True:
             next = str(input("Unesite polje na koje biste pomerili figuru (ili unesite x da otkažete potez): "))
-            newfield = convert(next)
+            try:
+                newfield = convert(next)
+            except:
+                continue
             if newfield in regplays or newfield in captplays or newfield == -1:
                 break
             else:
@@ -140,18 +143,18 @@ def play(board):
         if newfield == -1:
             continue
         if field in board.blues:
-            board.blues.pop(field)
+            board.blues.remove(field)
             if newfield // 10 == 0:
-                board.kingblues[newfield] = (newfield // 10, newfield % 10)
+                board.kingblues.add(newfield)
             else:
-                board.blues[newfield] = (newfield // 10, newfield % 10)
+                board.blues.add(newfield)
         elif field in board.kingblues:
-            board.kingblues.pop(field)
-            board.kingblues[newfield] = (newfield // 10, newfield % 10)
+            board.kingblues.remove(field)
+            board.kingblues.add(newfield)
         if newfield in captplays:
             for enemy in captplays[newfield]:
                 if enemy in board.reds:
-                    board.reds.pop(enemy)
+                    board.reds.remove(enemy)
                 else:
-                    board.kingreds.pop(enemy)
+                    board.kingreds.remove(enemy)
         break
