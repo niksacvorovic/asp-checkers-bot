@@ -1,8 +1,8 @@
 from sys import maxsize
 
 class GameBoard():
-    def __init__(self, reds = set({1, 3, 5, 7, 10, 12, 14, 16, 21, 23, 25, 27}), 
-                       blues = set({50, 52, 54, 56, 61, 63, 65, 67, 70, 72, 74, 76}),
+    def __init__(self, reds = {1, 3, 5, 7, 10, 12, 14, 16, 21, 23, 25, 27}, 
+                       blues = {50, 52, 54, 56, 61, 63, 65, 67, 70, 72, 74, 76},
                        kingreds = set(), kingblues = set()):
         self.reds = reds
         self.blues = blues

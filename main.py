@@ -22,7 +22,7 @@ def main():
     printboard(board)
     while True:
         play(board)
-        #system('cls')
+        system('cls')
         print("Vaš potez: ")
         printboard(board)
         if len(board.reds) == 0 and len(board.kingreds) == 0:
@@ -31,12 +31,14 @@ def main():
         print("Čeka se protivnički potez...")
         start = time()
         depth = 0
-        while time() - start < 3:
+        while time() - start < 1:
             depth += 1
-            newboard = minimax(board, depth, True)[1]
-            print(time() - start)
+            newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize)[1]
         board = newboard
-        #system('cls')
+        if type(board) == type(None):
+            print("Računar ne može odigrati nijedan potez. Pobedili ste računar (nekako)")
+            break
+        system('cls')
         print("Protivnički potez:")
         printboard(board)
         if len(board.blues) == 0 and len(board.kingblues) == 0:

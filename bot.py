@@ -1,7 +1,6 @@
 from classes import *
 from regplays import *
 from captplays import *
-from collections import deque
 from sys import maxsize
 
 #def minimax_old(node):
@@ -33,26 +32,60 @@ def minimax(board, depth, ismax):
     if ismax:
         plays = generateregplays_red(board) + generatecaptplays_red(board)
         if plays == []:
-            return [-maxsize]
+            return [maxsize, None]
         max = -maxsize
         for play in plays:
             value = minimax(play, depth - 1, False)[0]
-            if max < value:
+            if (max < value) ^ (value == -maxsize):
                 max = value
                 move = play
         return [max, move]
     else:
         plays = generateregplays_blue(board) + generatecaptplays_blue(board)
         if plays == []:
-            return [maxsize]
+            return [-maxsize, None]
         min = maxsize
         for play in plays:
             value = minimax(play, depth - 1, True)[0]
-            if min > value:
+            if (min > value) ^ (value == maxsize):
                 min = value
                 move = play
         return [min, move]
-    
+
+def minimax_alphabeta(board, depth, ismax, alpha, beta):
+    if depth == 0:
+        return [heuristic(board), None]
+    if ismax:
+        plays = generateregplays_red(board) + generatecaptplays_red(board)
+        if plays == []:
+            return [maxsize, None]
+        for play in plays:
+            ret = minimax_alphabeta(play, depth - 1, False, alpha, beta)
+            value = ret[0]
+            if type(ret[1]) == type(None):
+                move = ret[1]
+            if (alpha < value)  ^ (value == -maxsize):
+                alpha = value
+                move = play
+                if beta <= alpha:
+                    return [alpha, move]
+        return [alpha, move]
+    else:
+        plays = generateregplays_blue(board) + generatecaptplays_blue(board)
+        if plays == []:
+            return [-maxsize, None]
+        for play in plays:
+            ret = minimax_alphabeta(play, depth - 1, False, alpha, beta)
+            value = ret[0]
+            if type(ret[1]) == type(None):
+                move = ret[1]
+            if (beta > value) ^ (value == maxsize):
+                beta = value
+                move = play
+                if beta <= alpha:
+                    return [alpha, move]
+        return [beta, move]
+
 #def minimax(node):
 #    noderef = None
 #    for child in node.children:

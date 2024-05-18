@@ -4,6 +4,7 @@ from mechanisms import *
 from classes import *
 from bot import *
 
-board = GameBoard()
-board.reds.add(6543)
-print(type(board.reds))
+print(-maxsize < -1)
+print(-1 == -maxsize)
+print(True ^ False)
+print((-maxsize < -1) ^ (-1 == -maxsize))

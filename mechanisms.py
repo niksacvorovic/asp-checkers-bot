@@ -106,9 +106,13 @@ def play(board):
     while True:
         while True:
             available = movablefigures(board)
-            print("Možete odigrati figurama na sledećim poljima: ", end = "")
-            for field in available:
-                print(convertback(field), end = " ")
+            if available == []:
+                print("Ne možete odigrati nijedan potez. Računar je pobedio (nekako)")
+                exit()
+            else:
+                print("Možete odigrati figurama na sledećim poljima: ", end = "")
+                for field in available:
+                    print(convertback(field), end = " ")
             tile = str(input("\nUnesite polje na kojem je figura koju biste pomerili: "))
             if not(len(tile) == 2 and tile[0].upper() in ["A", "B", "C", "D", "E", "F", "G", "H"] and tile[1] in ["1", "2", "3", "4", "5", "6", "7", "8"]):
                 print("Uneli ste neispravno polje")
