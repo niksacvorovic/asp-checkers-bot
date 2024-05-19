@@ -106,6 +106,7 @@ def play(board):
     while True:
         while True:
             available = movablefigures(board)
+            available.sort()
             if available == []:
                 print("Ne možete odigrati nijedan potez. Računar je pobedio (nekako)")
                 exit()
