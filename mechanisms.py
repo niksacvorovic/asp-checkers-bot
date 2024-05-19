@@ -43,21 +43,21 @@ def regularplays(board, field):
             plays.append(field + 11)
     return plays
 
-def captureplays(board, field, add = []):
+def captureplays(board, field, nextmove, add = []):
     plays = {}
     if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
         plays[field - 22] = [field - 11] + add
-        plays.update(captureplays(board, field - 22, plays[field - 22]))
+        plays.update(captureplays(board, field - 22, False, plays[field - 22]))
     if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
         plays[field - 18] = [field - 9] + add
-        plays.update(captureplays(board, field - 18, plays[field - 18]))
-    if field in board.kingblues:
+        plays.update(captureplays(board, field - 18, False, plays[field - 18]))
+    if field in board.kingblues or nextmove:
         if ((field + 11) in board.reds or (field + 11) in board.kingreds) and is_empty(field + 22, board) and field % 10 < 6 and field // 10 < 6:
             plays[field + 22] = [field + 11] + add
-            plays.update(captureplays(board, field + 22, plays[field + 22]))
+            plays.update(captureplays(board, field + 22, True, plays[field + 22]))
         if ((field + 9) in board.reds or (field + 9) in board.kingreds) and is_empty(field + 18, board) and field % 10 > 1 and field // 10 < 6:
             plays[field + 18] = [field + 9] + add
-            plays.update(captureplays(board, field + 18, plays[field + 18]))
+            plays.update(captureplays(board, field + 18, True, plays[field + 18]))
     return plays
 
 def movablefigures(board):
@@ -124,7 +124,7 @@ def play(board):
             else:
                 break
         regplays = regularplays(board, field)
-        captplays = captureplays(board, field)
+        captplays = captureplays(board, field, False)
         if regplays == [] and captplays == {}:
             print("Data figura se ne može pomeriti")
             continue

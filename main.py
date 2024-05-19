@@ -16,6 +16,7 @@ def main():
             break
         else:
             print("Odabrali ste nepostojeću opciju. Pokušajte opet.")
+    table = generate_transposition_table()
     system('cls')
     print("Igra može da počne!")
     board = GameBoard()
@@ -31,7 +32,7 @@ def main():
         print("Čeka se protivnički potez...")
         start = time()
         depth = 0
-        while time() - start < 1:
+        while time() - start < 2:
             depth += 1
             newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize)[1]
         board = newboard
