@@ -20,8 +20,7 @@ def main():
     cache = {}
     system('cls')
     print("Igra može da počne!")
-    #test tabla: {3, 5, 7, 10, 12, 14, 16, 23, 25, 27, 30, 32}, {41, 43, 50, 52, 54, 56, 65, 67, 70, 72, 74, 76}{23, 43}, {63, 70}, {43}, {63}
-    board = GameBoard({3, 5, 7, 10, 12, 14, 16, 23, 25, 27, 30, 32}, {41, 43, 50, 52, 54, 56, 65, 67, 70, 72, 74, 76})
+    board = GameBoard()
     board.hash = hashboard(board, table)
     printboard(board)
     while True:
@@ -32,7 +31,7 @@ def main():
         print("Vaš potez: ")
         printboard(board)
         if len(board.reds) == 0 and len(board.kingreds) == 0:
-            print("Pobedili ste računar! Čestitamo pojeli ste")
+            print("Pobedili ste računar! Čestitamo")
             break
         print("Čeka se protivnički potez...")
         start = time()
@@ -40,16 +39,16 @@ def main():
         if args == "1":
             while time() - start < 1:
                 depth += 1
-                #newboard = minimax(board, depth, True, table, cache)
-                #if newboard[0] == maxsize:
-                #    break
                 newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize, table, cache)
+                #newboard = minimax(board, depth, True, table, cache)
+                if newboard[0] == maxsize:
+                    break
                 print(time() - start)
         if args == "2":
             while time() - start < 1:
                 depth += 1
-                #newboard = minimax_aggro(board, depth, True, table, cache)
                 newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize, table, cache)
+                #newboard = minimax_aggro(board, depth, True, table, cache)
                 print(time() - start)
         board = newboard[1]
         if type(board) == type(None):
@@ -59,7 +58,7 @@ def main():
         print("Protivnički potez:")
         printboard(board)
         if len(board.blues) == 0 and len(board.kingblues) == 0:
-            print("Izgubili ste od računara! Niste pojeli")
+            print("Izgubili ste od računara!")
             break
 
 if __name__ == "__main__":
