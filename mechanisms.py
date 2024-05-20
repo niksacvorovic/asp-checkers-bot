@@ -60,52 +60,95 @@ def captureplays(board, field, nextmove, add = []):
             plays.update(captureplays(board, field + 18, True, plays[field + 18]))
     return plays
 
-def movablefigures(board):
+def movablefigures(board, args):
     available = []
-    for field in board.blues:
-        if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
-            available.append(field)
-            continue
-        if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
-            available.append(field)
-            continue
-        if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
-            available.append(field)
-            continue
-        if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
-            available.append(field)
-            continue
-    for field in board.kingblues:
-        if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
-            available.append(field)
-            continue
-        if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
-            available.append(field)
-            continue
-        if is_empty(field + 9, board) and field % 10 != 0 and field // 10 != 7:
-            available.append(field)
-            continue
-        if is_empty(field + 11, board) and field % 10 != 7 and field // 10 != 7:
-            available.append(field)
-            continue
-        if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
-            available.append(field)
-            continue
-        if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
-            available.append(field)
-            continue
-        if ((field + 11) in board.reds or (field + 11) in board.kingreds) and is_empty(field + 22, board) and field % 10 < 6 and field // 10 < 6:
-            available.append(field)
-            continue
-        if ((field + 9) in board.reds or (field + 9) in board.kingreds) and is_empty(field + 18, board) and field % 10 > 1 and field // 10 < 6:
-            available.append(field)
-            continue
+    if args == "1":
+        for field in board.blues:
+            if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
+                available.append(field)
+                continue
+            if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
+                available.append(field)
+                continue
+            if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
+                available.append(field)
+                continue
+            if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
+                available.append(field)
+                continue
+        for field in board.kingblues:
+            if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
+                available.append(field)
+                continue
+            if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
+                available.append(field)
+                continue
+            if is_empty(field + 9, board) and field % 10 != 0 and field // 10 != 7:
+                available.append(field)
+                continue
+            if is_empty(field + 11, board) and field % 10 != 7 and field // 10 != 7:
+                available.append(field)
+                continue
+            if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
+                available.append(field)
+                continue
+            if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
+                available.append(field)
+                continue
+            if ((field + 11) in board.reds or (field + 11) in board.kingreds) and is_empty(field + 22, board) and field % 10 < 6 and field // 10 < 6:
+                available.append(field)
+                continue
+            if ((field + 9) in board.reds or (field + 9) in board.kingreds) and is_empty(field + 18, board) and field % 10 > 1 and field // 10 < 6:
+                available.append(field)
+                continue
+    if args == "2":
+        for field in board.blues:
+            if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
+                available.append(field)
+                continue
+            if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
+                available.append(field)
+                continue
+        for field in board.kingblues:
+            if ((field - 11) in board.reds or (field - 11) in board.kingreds) and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
+                available.append(field)
+                continue
+            if ((field - 9) in board.reds or (field - 9) in board.kingreds) and is_empty(field - 18, board) and field % 10 < 6 and field // 10 > 1:
+                available.append(field)
+                continue
+            if ((field + 11) in board.reds or (field + 11) in board.kingreds) and is_empty(field + 22, board) and field % 10 < 6 and field // 10 < 6:
+                available.append(field)
+                continue
+            if ((field + 9) in board.reds or (field + 9) in board.kingreds) and is_empty(field + 18, board) and field % 10 > 1 and field // 10 < 6:
+                available.append(field)
+                continue
+        if available == []:
+            for field in board.blues:
+                if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
+                    available.append(field)
+                    continue
+                if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
+                    available.append(field)
+                    continue
+            for field in board.kingblues:
+                if is_empty(field - 11, board) and field % 10 != 0 and field // 10 != 0:
+                    available.append(field)
+                    continue
+                if is_empty(field - 9, board) and field % 10 != 7 and field // 10 != 0:
+                    available.append(field)
+                    continue
+                if is_empty(field + 9, board) and field % 10 != 0 and field // 10 != 7:
+                    available.append(field)
+                    continue
+                if is_empty(field + 11, board) and field % 10 != 7 and field // 10 != 7:
+                    available.append(field)
+                    continue
     return available
     
-def play(board):
+def play(board, args):
     while True:
         while True:
-            available = movablefigures(board)
+            available = movablefigures(board, args)
             available.sort()
             if available == []:
                 print("Ne možete odigrati nijedan potez. Računar je pobedio (nekako)")
@@ -130,10 +173,19 @@ def play(board):
             print("Data figura se ne može pomeriti")
             continue
         print("Dostupni potezi: ", end = "")
-        for p in regplays:
-            print(convertback(p), end = " ")
-        for p in captplays:
-            print(convertback(p), end = " ")
+        if args == "1":
+            for p in regplays:
+                print(convertback(p), end = " ")
+            for p in captplays:
+                print(convertback(p), end = " ")
+        if args == "2":
+            if captplays == {}:
+                for p in regplays:
+                    print(convertback(p), end = " ")
+            else:
+                regplays = []
+            for p in captplays:
+                print(convertback(p), end = " ")
         print()
         while True:
             next = str(input("Unesite polje na koje biste pomerili figuru (ili unesite x da otkažete potez): "))

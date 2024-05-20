@@ -52,12 +52,13 @@ def hashboard(board, table):
 
 def minimax(board, depth, ismax, table, cache):
     if depth == 0:
-        return [heuristic(board)]
+        return [heuristic(board), None]
     if ismax:
         plays = generateregplays_red(board, table, cache) + generatecaptplays_red(board, table, cache)
         if plays == []:
             return [0, board]
         max = -maxsize
+        move = None
         for play in plays:
             value = minimax(play, depth - 1, False, table, cache)[0]
             if max < value:
@@ -69,6 +70,7 @@ def minimax(board, depth, ismax, table, cache):
         if plays == []:
             return [0, board]
         min = maxsize
+        move = None
         for play in plays:
             value = minimax(play, depth - 1, True, table, cache)[0]
             if min > value:
@@ -83,25 +85,99 @@ def minimax_alphabeta(board, depth, ismax, alpha, beta, table, cache):
         plays = generateregplays_red(board, table, cache) + generatecaptplays_red(board, table, cache)
         if plays == []:
             return [0, board]
-        move = None
+        max = -maxsize
         for play in plays:
-            if beta <= alpha:
-                return [alpha, move]
-            value = minimax_alphabeta(board, table, cache, depth - 1, ismax, alpha, beta)[0]
-            if alpha < value:
-                alpha = value
+            value = minimax_alphabeta(board, depth - 1, False, alpha, beta, table, cache)[0]
+            if max < value:
+                max = value
                 move = play
-        return [alpha, move]
+            if alpha < max:
+                alpha = max
+            if beta <= alpha:
+                break
+        return [max, move]
     else:
         plays = generateregplays_blue(board, table, cache) + generatecaptplays_blue(board, table, cache)
         if plays == []:
             return [0, board]
+        min = maxsize
+        for play in plays:
+            value = minimax_alphabeta(board, depth - 1, True, alpha, beta, table, cache)[0]
+            if min > value:
+                min = value
+                move = play
+            if beta > min:
+                beta = min
+            if beta <= alpha:
+                break
+        return [min, move]
+
+def minimax_aggro(board, depth, ismax, table, cache):
+    if depth == 0:
+        return [heuristic(board), None]
+    if ismax:
+        plays = generatecaptplays_red(board, table, cache)
+        if plays == []:
+            plays = generateregplays_red(board, table, cache)
+        if plays == []:
+            return [0, board]
+        max = -maxsize
         move = None
         for play in plays:
-            if beta <= alpha:
-                return [beta, move]
-            value = minimax_alphabeta(board, table, cache, depth, ismax, alpha, beta)[0]
-            if beta > value:
-                beta = value
+            value = minimax_aggro(play, depth - 1, False, table, cache)[0]
+            if max < value:
+                max = value
                 move = play
-        return [beta, move]
+        return [max, move]
+    else:
+        plays = generatecaptplays_blue(board, table, cache)
+        if plays == []:
+            plays = generateregplays_blue(board, table, cache)
+        if plays == []:
+            return [0, board]
+        min = maxsize
+        move = None
+        for play in plays:
+            value = minimax_aggro(play, depth - 1, True, table, cache)[0]
+            if min > value:
+                min = value
+                move = play
+        return [min, move]
+
+def minimax_alphabeta_aggro(board, depth, ismax, alpha, beta, table, cache):
+    if depth == 0:
+        return [heuristic(board), None]
+    if ismax:
+        plays = generatecaptplays_red(board, table, cache)
+        if plays == []:
+            plays = generateregplays_red(board, table, cache)
+        if plays == []:
+            return [0, board]
+        max = -maxsize
+        for play in plays:
+            value = minimax_alphabeta_aggro(board, depth - 1, False, alpha, beta, table, cache)[0]
+            if max < value:
+                max = value
+                move = play
+            if alpha < max:
+                alpha = max
+            if beta <= alpha:
+                break
+        return [max, move]
+    else:
+        plays = generatecaptplays_blue(board, table, cache)
+        if plays == []:
+            plays = generateregplays_blue(board, table, cache)
+        if plays == []:
+            return [0, board]
+        min = maxsize
+        for play in plays:
+            value = minimax_alphabeta_aggro(board, depth - 1, True, alpha, beta, table, cache)[0]
+            if min > value:
+                min = value
+                move = play
+            if beta > min:
+                beta = min
+            if beta <= alpha:
+                break
+        return [min, move]

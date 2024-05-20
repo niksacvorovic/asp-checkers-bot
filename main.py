@@ -8,8 +8,8 @@ def main():
     system('cls')
     print("Dobrodošli u igru Dame!")
     print("Odaberite Vaš režim igre")
-    print("1. Obavezno preskakanje (dolazi uskoro)")
-    print("2. Bez obaveznog preskakanja")
+    print("1. Bez obaveznog preskakanja")
+    print("2. Obavezno preskakanje")
     while True:
         args = input("Odaberite režim: ")
         if args in ["1", "2"]:
@@ -20,11 +20,12 @@ def main():
     cache = {}
     system('cls')
     print("Igra može da počne!")
-    board = GameBoard({1, 3, 14, 16, 21, 23, 25, 27, 30, 32, 34, 36}, {41, 43, 45, 47, 50, 52, 54, 56, 61, 63, 74, 76})
+    #test tabla: {3, 5, 7, 10, 12, 14, 16, 23, 25, 27, 30, 32}, {41, 43, 50, 52, 54, 56, 65, 67, 70, 72, 74, 76}{23, 43}, {63, 70}, {43}, {63}
+    board = GameBoard({3, 5, 7, 10, 12, 14, 16, 23, 25, 27, 30, 32}, {41, 43, 50, 52, 54, 56, 65, 67, 70, 72, 74, 76})
     board.hash = hashboard(board, table)
     printboard(board)
     while True:
-        play(board)
+        play(board, args)
         board.hash = hashboard(board, table)
         cache[board.hash] = board
         system('cls')
@@ -36,12 +37,21 @@ def main():
         print("Čeka se protivnički potez...")
         start = time()
         depth = 0
-        while time() - start < 1:
-            depth += 1
-            #newboard = minimax(board, depth, True, table, cache)[1]
-            newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize, table, cache)[1]
-            print(time() - start)
-        board = newboard
+        if args == "1":
+            while time() - start < 1:
+                depth += 1
+                #newboard = minimax(board, depth, True, table, cache)
+                #if newboard[0] == maxsize:
+                #    break
+                newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize, table, cache)
+                print(time() - start)
+        if args == "2":
+            while time() - start < 1:
+                depth += 1
+                #newboard = minimax_aggro(board, depth, True, table, cache)
+                newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize, table, cache)
+                print(time() - start)
+        board = newboard[1]
         if type(board) == type(None):
             print("Računar ne može odigrati nijedan potez. Pobedili ste računar (nekako)")
             break
