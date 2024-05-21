@@ -157,7 +157,7 @@ def minimax_alphabeta_aggro(board, depth, ismax, alpha, beta, table, cache):
             return [0, board]
         max = -maxsize
         for play in plays:
-            value = minimax_alphabeta_aggro(board, depth - 1, False, alpha, beta, table, cache)[0]
+            value = minimax_alphabeta_aggro(play, depth - 1, False, alpha, beta, table, cache)[0]
             if max < value:
                 max = value
                 move = play
@@ -174,7 +174,7 @@ def minimax_alphabeta_aggro(board, depth, ismax, alpha, beta, table, cache):
             return [0, board]
         min = maxsize
         for play in plays:
-            value = minimax_alphabeta_aggro(board, depth - 1, True, alpha, beta, table, cache)[0]
+            value = minimax_alphabeta_aggro(play, depth - 1, True, alpha, beta, table, cache)[0]
             if min > value:
                 min = value
                 move = play
