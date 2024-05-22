@@ -54,7 +54,7 @@ def main():
         if type(board) == type(None):
             print("Računar ne može odigrati nijedan potez. Pobedili ste računar (nekako)")
             break
-        system('cls')
+        #system('cls')
         print("Protivnički potez:")
         printboard(board)
         if len(board.blues) == 0 and len(board.kingblues) == 0:

@@ -194,7 +194,7 @@ def generatecaptplays_kingredfield(board, field, table, cache):
             newkingblues.remove(capture)
             newkingreds.add(newfield)
             newboard = GameBoard(board.reds, board.blues, newkingreds, newkingblues, newhash)
-        plays.append(newboard)
+            plays.append(newboard)
         plays += generatecaptplays_kingredfield(newboard, newfield, table, cache)
     if (field - 11) in board.blues and is_empty(field - 22, board) and field % 10 > 1 and field // 10 > 1:
         newhash = board.hash

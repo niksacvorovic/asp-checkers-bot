@@ -56,7 +56,7 @@ def minimax(board, depth, ismax, table, cache):
     if ismax:
         plays = generateregplays_red(board, table, cache) + generatecaptplays_red(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         max = -maxsize
         move = None
         for play in plays:
@@ -68,7 +68,7 @@ def minimax(board, depth, ismax, table, cache):
     else:
         plays = generateregplays_blue(board, table, cache) + generatecaptplays_blue(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         min = maxsize
         move = None
         for play in plays:
@@ -84,7 +84,7 @@ def minimax_alphabeta(board, depth, ismax, alpha, beta, table, cache):
     if ismax:
         plays = generateregplays_red(board, table, cache) + generatecaptplays_red(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         max = -maxsize
         move = None
         for play in plays:
@@ -100,7 +100,7 @@ def minimax_alphabeta(board, depth, ismax, alpha, beta, table, cache):
     else:
         plays = generateregplays_blue(board, table, cache) + generatecaptplays_blue(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         min = maxsize
         move = None
         for play in plays:
@@ -122,7 +122,7 @@ def minimax_aggro(board, depth, ismax, table, cache):
         if plays == []:
             plays = generateregplays_red(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         max = -maxsize
         move = None
         for play in plays:
@@ -136,7 +136,7 @@ def minimax_aggro(board, depth, ismax, table, cache):
         if plays == []:
             plays = generateregplays_blue(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         min = maxsize
         move = None
         for play in plays:
@@ -154,7 +154,7 @@ def minimax_alphabeta_aggro(board, depth, ismax, alpha, beta, table, cache):
         if plays == []:
             plays = generateregplays_red(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         max = -maxsize
         for play in plays:
             value = minimax_alphabeta_aggro(play, depth - 1, False, alpha, beta, table, cache)[0]
@@ -171,7 +171,7 @@ def minimax_alphabeta_aggro(board, depth, ismax, alpha, beta, table, cache):
         if plays == []:
             plays = generateregplays_blue(board, table, cache)
         if plays == []:
-            return [0, board]
+            return [0, None]
         min = maxsize
         for play in plays:
             value = minimax_alphabeta_aggro(play, depth - 1, True, alpha, beta, table, cache)[0]
