@@ -47,8 +47,10 @@ def main():
         if args == "2":
             while time() - start < 1:
                 depth += 1
-                newboard = minimax_alphabeta(board, depth, True, -maxsize, maxsize, table, cache)
+                newboard = minimax_alphabeta_aggro(board, depth, True, -maxsize, maxsize, table, cache)
                 #newboard = minimax_aggro(board, depth, True, table, cache)
+                if newboard[0] == maxsize:
+                    break
                 print(time() - start)
         board = newboard[1]
         if type(board) == type(None):
